@@ -1,40 +1,229 @@
+<script lang="ts">
+    import { onMount } from "svelte";
+
+    let countries: String[] = [];
+
+    let selectedProfession = "";
+    let salary = "";
+    const professions: { name: string; salary: string }[] = [
+        { name: "Doctor", salary: "$100,000" },
+        { name: "Engineer", salary: "$80,000" },
+    ];
+
+    let age = 18;
+
+    const handleProfessionChange = (event: Event) => {
+        selectedProfession = (event.target as HTMLSelectElement).value;
+        calculateSalary();
+    };
+
+    const calculateSalary = () => {
+        const profession = professions.find(
+            (p) => p.name === selectedProfession
+        );
+        salary = profession ? profession.salary : "";
+    };
+
+    onMount(() => {
+        countries = ["Ecuador", "Unite Kingdom", "USA"];
+
+        const professionSelect = document.getElementById(
+            "profession"
+        ) as HTMLSelectElement;
+        professionSelect.addEventListener("change", handleProfessionChange);
+
+        const rangeInput = document.getElementById("age");
+        if (rangeInput !== null) {
+            rangeInput.addEventListener("input", (event) => {
+                const target = event.target as HTMLInputElement;
+                age = parseInt(target.value);
+            });
+        }
+    });
+</script>
+
 <form>
     <!-- Grid -->
     <div class="grid">
-        <!-- Markup example 1: input is inside label -->
-        <label for="firstname">
-            First name
-            <input
-                type="text"
-                id="firstname"
-                name="firstname"
-                placeholder="First name"
-                required
-            />
-        </label>
-
-        <label for="lastname">
-            Last name
-            <input
-                type="text"
-                id="lastname"
-                name="lastname"
-                placeholder="Last name"
-                required
-            />
-        </label>
+        <div>
+            <label for="country"> Country </label>
+            <select id="country" required>
+                <option value="" selected>Select a country</option>
+                {#each countries as country}
+                    <option value={country}>{country}</option>
+                {/each}
+            </select>
+            <label for="range"
+                >Age: {age}
+                <input
+                    type="range"
+                    min="18"
+                    max="100"
+                    bind:value={age}
+                    id="age"
+                />
+            </label>
+            <fieldset>
+                <legend>Gender</legend>
+                <label for="masculine">
+                    <input
+                        type="radio"
+                        id="masculine"
+                        name="gender"
+                        value="m"
+                        checked
+                    />
+                    Masculine
+                </label>
+                <label for="femenine">
+                    <input type="radio" id="femenine" name="gender" value="f" />
+                    Femenine
+                </label>
+            </fieldset>
+            <label for="profession"> Profession </label>
+            <select id="profession" required>
+                <option value="" selected>Select a profession</option>
+                {#each professions as profession}
+                    <option value={profession.name}>{profession.name}</option>
+                {/each}
+            </select>
+            <label for="salary">
+                Salary
+                <input
+                    type="text"
+                    id="salary"
+                    name="salary"
+                    placeholder="Salary"
+                    bind:value={salary}
+                    readonly
+                />
+            </label>
+        </div>
+        <div>
+            <label for="subcategory">
+                Subcategory
+                <input
+                    type="text"
+                    id="subcategory"
+                    name="subcategory"
+                    placeholder="Subcategory"
+                    required
+                />
+            </label>
+            <label for="product_age">
+                Product Age
+                <input
+                    type="text"
+                    id="product_age"
+                    name="product_age"
+                    placeholder="Product Age"
+                    required
+                />
+            </label>
+            <label for="height">
+                Height
+                <input
+                    type="text"
+                    id="height"
+                    name="height"
+                    placeholder="Height"
+                    required
+                />
+            </label>
+            <label for="width">
+                Width
+                <input
+                    type="text"
+                    id="width"
+                    name="width"
+                    placeholder="Width"
+                    required
+                />
+            </label>
+            <label for="depth">
+                Depth
+                <input
+                    type="text"
+                    id="depth"
+                    name="depth"
+                    placeholder="Depth"
+                    required
+                />
+            </label>
+            <label for="age_relevant">
+                Age Relevant
+                <input
+                    type="text"
+                    id="age_relevant"
+                    name="age_relevant"
+                    placeholder="Age Relevant"
+                    required
+                />
+            </label>
+        </div>
+        <div>
+            <label for="product_quantity">
+                Product quantity
+                <input
+                    type="text"
+                    id="product_quantity"
+                    name="product_quantity"
+                    placeholder="Product quantity"
+                    required
+                />
+            </label>
+            <label for="unit_price">
+                Unit price
+                <input
+                    type="text"
+                    id="unit_price"
+                    name="unit_price"
+                    placeholder="Unit price"
+                    required
+                />
+            </label>
+            <label for="iva">
+                IVA
+                <input
+                    type="text"
+                    id="iva"
+                    name="iva"
+                    placeholder="IVA"
+                    required
+                />
+            </label>
+            <label for="subtotal">
+                Subtotal
+                <input
+                    type="text"
+                    id="subtotal"
+                    name="subtotal"
+                    placeholder="Subtotal"
+                    required
+                />
+            </label>
+            <label for="total">
+                Total
+                <input
+                    type="text"
+                    id="total"
+                    name="total"
+                    placeholder="Total"
+                    required
+                />
+            </label>
+            <label for="proffit">
+                Proffit
+                <input
+                    type="text"
+                    id="proffit"
+                    name="proffit"
+                    placeholder="Proffit"
+                    required
+                />
+            </label>
+        </div>
     </div>
-
-    <!-- Markup example 2: input is after label -->
-    <label for="email">Email address</label>
-    <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email address"
-        required
-    />
-    <small>We'll never share your email with anyone else.</small>
 
     <!-- Button -->
     <button type="submit">Submit</button>
