@@ -14,6 +14,7 @@
     //Products
     const subcategories: { id: string }[] = [{ id: "2" }];
     let product_age = 1;
+    let product_quantity = 1;
 
     const handleProfessionChange = (event: Event) => {
         selectedProfession = (event.target as HTMLSelectElement).value;
@@ -42,11 +43,21 @@
                 age = parseInt(target.value);
             });
         }
+        //products
         const rangeProductAge = document.getElementById("product_age");
         if (rangeProductAge !== null) {
             rangeProductAge.addEventListener("input", (event) => {
                 const target = event.target as HTMLInputElement;
                 product_age = parseInt(target.value);
+            });
+        }
+        
+        const rangeProductQuantity =
+            document.getElementById("product_quantity");
+        if (rangeProductQuantity !== null) {
+            rangeProductQuantity.addEventListener("input", (event) => {
+                const target = event.target as HTMLInputElement;
+                product_quantity = parseInt(target.value);
             });
         }
     });
@@ -165,7 +176,7 @@
             </label>
             <fieldset>
                 <label for="age_relevant">
-                    <input type="checkbox" id="age_relevant" role="switch">
+                    <input type="checkbox" id="age_relevant" role="switch" />
                     Age Relevant
                 </label>
             </fieldset>
@@ -173,62 +184,67 @@
         <div>
             <h4>Invoice Values</h4>
             <label for="product_quantity">
-                Product quantity
+                Product quantity: {product_quantity}
                 <input
-                    type="text"
+                    type="range"
+                    min="1"
+                    max="5"
+                    bind:value={product_quantity}
                     id="product_quantity"
-                    name="product_quantity"
-                    placeholder="Product quantity"
-                    required
                 />
             </label>
             <label for="unit_price">
                 Unit price
                 <input
-                    type="text"
+                    type="number"
                     id="unit_price"
                     name="unit_price"
                     placeholder="Unit price"
+                    step="0.01"
                     required
                 />
             </label>
             <label for="iva">
                 IVA
                 <input
-                    type="text"
+                    type="number"
                     id="iva"
                     name="iva"
                     placeholder="IVA"
+                    step="0.01"
                     required
                 />
             </label>
             <label for="subtotal">
                 Subtotal
                 <input
-                    type="text"
+                    type="number"
                     id="subtotal"
                     name="subtotal"
                     placeholder="Subtotal"
+                    step="0.01"
                     required
                 />
             </label>
             <label for="total">
                 Total
                 <input
-                    type="text"
+                    type="number"
                     id="total"
                     name="total"
                     placeholder="Total"
+                    step="0.01"
                     required
                 />
             </label>
             <label for="proffit">
                 Proffit
                 <input
-                    type="text"
+                    type="number"
                     id="proffit"
                     name="proffit"
                     placeholder="Proffit"
+                    step="0.01"
                     required
                 />
             </label>
