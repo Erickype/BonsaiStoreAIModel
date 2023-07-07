@@ -1,13 +1,20 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import { enhance } from '$app/forms';
+    import type { ActionData } from "./$types";
+
+    export let form: ActionData
 
     // Customers
-    let countries: String[] = [];
+    const countries: { name: string; value:string }[] = [
+        { name: "Ecuador", value:"1"},
+        { name: "UK", value:"2" },
+    ];
     let selectedProfession = "";
     let salary = "";
-    const professions: { name: string; salary: string }[] = [
-        { name: "Doctor", salary: "$100,000" },
-        { name: "Engineer", salary: "$80,000" },
+    const professions: { name: string; salary: string, value:string }[] = [
+        { name: "Doctor", salary: "100000" , value:"1"},
+        { name: "Engineer", salary: "80000", value:"2" },
     ];
     let age = 18;
 
@@ -23,14 +30,12 @@
 
     const calculateSalary = () => {
         const profession = professions.find(
-            (p) => p.name === selectedProfession
+            (p) => p.value === selectedProfession
         );
         salary = profession ? profession.salary : "";
     };
 
     onMount(() => {
-        countries = ["Ecuador", "Unite Kingdom", "USA"];
-
         const professionSelect = document.getElementById(
             "profession"
         ) as HTMLSelectElement;
@@ -51,7 +56,7 @@
                 product_age = parseInt(target.value);
             });
         }
-        
+
         const rangeProductQuantity =
             document.getElementById("product_quantity");
         if (rangeProductQuantity !== null) {
@@ -63,16 +68,20 @@
     });
 </script>
 
-<form>
+<pre>
+    {JSON.stringify(form, null, 2)}
+</pre>
+
+<form method="POST" action="?/getLabel" use:enhance>
     <div class="grid">
         <!--Customer characteristics-->
         <div>
             <h4>Customer</h4>
             <label for="country"> Country </label>
-            <select id="country" required>
+            <select id="country" name="pais" required>
                 <option value="" selected>Select a country</option>
                 {#each countries as country}
-                    <option value={country}>{country}</option>
+                    <option value={country.value}>{country.name}</option>
                 {/each}
             </select>
             <label for="age"
@@ -83,6 +92,7 @@
                     max="100"
                     bind:value={age}
                     id="age"
+                    name ="edad"
                 />
             </label>
             <fieldset>
@@ -91,22 +101,22 @@
                     <input
                         type="radio"
                         id="masculine"
-                        name="gender"
-                        value="m"
+                        name="sexo"
+                        value="1"
                         checked
                     />
                     Masculine
                 </label>
                 <label for="femenine">
-                    <input type="radio" id="femenine" name="gender" value="f" />
+                    <input type="radio" id="femenine" name="sexo" value="2" />
                     Femenine
                 </label>
             </fieldset>
             <label for="profession"> Profession </label>
-            <select id="profession" required>
+            <select id="profession" name="profesion" required>
                 <option value="" selected>Select a profession</option>
                 {#each professions as profession}
-                    <option value={profession.name}>{profession.name}</option>
+                    <option value={profession.value}>{profession.name}</option>
                 {/each}
             </select>
             <label for="salary">
@@ -114,7 +124,7 @@
                 <input
                     type="text"
                     id="salary"
-                    name="salary"
+                    name="salario"
                     placeholder="Salary"
                     bind:value={salary}
                     readonly
@@ -125,7 +135,7 @@
         <div>
             <h4>Product</h4>
             <label for="subcategory"> Subcategory </label>
-            <select id="subcategory" required>
+            <select id="subcategory" name="subcategoria" required>
                 <option value="" selected>Select a subcategory</option>
                 {#each subcategories as subcategory}
                     <option value={subcategory.id}>{subcategory.id}</option>
@@ -139,6 +149,7 @@
                     max="100"
                     bind:value={product_age}
                     id="product_age"
+                    name="edad_producto"
                 />
             </label>
             <label for="height">
@@ -146,7 +157,7 @@
                 <input
                     type="number"
                     id="height"
-                    name="height"
+                    name="alto"
                     placeholder="Height"
                     step="0.01"
                     required
@@ -157,7 +168,7 @@
                 <input
                     type="number"
                     id="width"
-                    name="width"
+                    name="ancho"
                     placeholder="Width"
                     step="0.01"
                     required
@@ -168,7 +179,7 @@
                 <input
                     type="number"
                     id="depth"
-                    name="depth"
+                    name="profundidad"
                     placeholder="Depth"
                     step="0.01"
                     required
@@ -176,7 +187,7 @@
             </label>
             <fieldset>
                 <label for="age_relevant">
-                    <input type="checkbox" id="age_relevant" role="switch" />
+                    <input type="checkbox" id="age_relevant" name="edad_relevante" role="switch" />
                     Age Relevant
                 </label>
             </fieldset>
@@ -191,6 +202,7 @@
                     max="5"
                     bind:value={product_quantity}
                     id="product_quantity"
+                    name="cantidad_producto"
                 />
             </label>
             <label for="unit_price">
@@ -198,7 +210,7 @@
                 <input
                     type="number"
                     id="unit_price"
-                    name="unit_price"
+                    name="precio_unitario"
                     placeholder="Unit price"
                     step="0.01"
                     required
@@ -242,7 +254,7 @@
                 <input
                     type="number"
                     id="proffit"
-                    name="proffit"
+                    name="ganancia"
                     placeholder="Proffit"
                     step="0.01"
                     required
