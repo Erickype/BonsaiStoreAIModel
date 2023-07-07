@@ -1,16 +1,19 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
+    // Customers
     let countries: String[] = [];
-
     let selectedProfession = "";
     let salary = "";
     const professions: { name: string; salary: string }[] = [
         { name: "Doctor", salary: "$100,000" },
         { name: "Engineer", salary: "$80,000" },
     ];
-
     let age = 18;
+
+    //Products
+    const subcategories: { id: string }[] = [{ id: "2" }];
+    let product_age = 1;
 
     const handleProfessionChange = (event: Event) => {
         selectedProfession = (event.target as HTMLSelectElement).value;
@@ -39,13 +42,21 @@
                 age = parseInt(target.value);
             });
         }
+        const rangeProductAge = document.getElementById("product_age");
+        if (rangeProductAge !== null) {
+            rangeProductAge.addEventListener("input", (event) => {
+                const target = event.target as HTMLInputElement;
+                product_age = parseInt(target.value);
+            });
+        }
     });
 </script>
 
 <form>
-    <!-- Grid -->
     <div class="grid">
+        <!--Customer characteristics-->
         <div>
+            <h4>Customer</h4>
             <label for="country"> Country </label>
             <select id="country" required>
                 <option value="" selected>Select a country</option>
@@ -53,7 +64,7 @@
                     <option value={country}>{country}</option>
                 {/each}
             </select>
-            <label for="range"
+            <label for="age"
                 >Age: {age}
                 <input
                     type="range"
@@ -99,69 +110,68 @@
                 />
             </label>
         </div>
+        <!--Product characteristics-->
         <div>
-            <label for="subcategory">
-                Subcategory
+            <h4>Product</h4>
+            <label for="subcategory"> Subcategory </label>
+            <select id="subcategory" required>
+                <option value="" selected>Select a subcategory</option>
+                {#each subcategories as subcategory}
+                    <option value={subcategory.id}>{subcategory.id}</option>
+                {/each}
+            </select>
+            <label for="product_age"
+                >Product Age: {product_age}
                 <input
-                    type="text"
-                    id="subcategory"
-                    name="subcategory"
-                    placeholder="Subcategory"
-                    required
-                />
-            </label>
-            <label for="product_age">
-                Product Age
-                <input
-                    type="text"
+                    type="range"
+                    min="1"
+                    max="100"
+                    bind:value={product_age}
                     id="product_age"
-                    name="product_age"
-                    placeholder="Product Age"
-                    required
                 />
             </label>
             <label for="height">
                 Height
                 <input
-                    type="text"
+                    type="number"
                     id="height"
                     name="height"
                     placeholder="Height"
+                    step="0.01"
                     required
                 />
             </label>
             <label for="width">
                 Width
                 <input
-                    type="text"
+                    type="number"
                     id="width"
                     name="width"
                     placeholder="Width"
+                    step="0.01"
                     required
                 />
             </label>
             <label for="depth">
                 Depth
                 <input
-                    type="text"
+                    type="number"
                     id="depth"
                     name="depth"
                     placeholder="Depth"
+                    step="0.01"
                     required
                 />
             </label>
-            <label for="age_relevant">
-                Age Relevant
-                <input
-                    type="text"
-                    id="age_relevant"
-                    name="age_relevant"
-                    placeholder="Age Relevant"
-                    required
-                />
-            </label>
+            <fieldset>
+                <label for="age_relevant">
+                    <input type="checkbox" id="age_relevant" role="switch">
+                    Age Relevant
+                </label>
+            </fieldset>
         </div>
         <div>
+            <h4>Invoice Values</h4>
             <label for="product_quantity">
                 Product quantity
                 <input
