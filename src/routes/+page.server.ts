@@ -3,23 +3,21 @@ import type { Actions } from './$types';
 export const actions = {
     getLabel: async ({ request }) => {
         const formData = await request.formData();
-
-        /* const jsonObject = Object.fromEntries(formData.entries())
-        console.log(formData);   */
+        console.log(formData);
+        
         const jsonObject: { [key: string]: string | number } = {};
         for (const [key, value] of formData.entries()) {
             if (value instanceof File) {
-                // Handle File object, e.g., convert to string or omit
-                jsonObject[key] = 'File object';
+              // Handle File object, e.g., convert to string or omit
+              jsonObject[key] = 'File object';
             } else {
-                const parsedValue = !isNaN(Number(value)) ? Number(value) : value;
-                jsonObject[key] = parsedValue;
+              const parsedValue = !isNaN(Number(value)) ? Number(value) : value;
+              jsonObject[key] = parsedValue !== value ? parsedValue : value;
             }
-        }
-        console.log(jsonObject);
+          }
+        console.log(JSON.stringify(jsonObject));
         
-
-        const response = await fetch('https://a1cd-34-29-44-16.ngrok-free.app/getLabel', {
+        const response = await fetch('http://cd25-34-125-239-243.ngrok-free.app/getLabel', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -30,7 +28,7 @@ export const actions = {
         if (response.ok) {
             const responseData = await response.json();
             console.log(responseData);
-            return { success: true, response: responseData};
+            return { response: responseData};
         } else {
             console.error('HTTP request failed');
             return { success: false };
