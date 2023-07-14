@@ -1,20 +1,20 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { enhance } from '$app/forms';
+    import { enhance } from "$app/forms";
     import type { ActionData } from "./$types";
 
-    export let form: ActionData
+    export let form: ActionData;
 
     // Customers
-    const countries: { name: string; value:string }[] = [
-        { name: "Ecuador", value:"1"},
-        { name: "UK", value:"2" },
+    const countries: { name: string; value: string }[] = [
+        { name: "Ecuador", value: "1" },
+        { name: "UK", value: "2" },
     ];
     let selectedProfession = "";
     let salary = "";
-    const professions: { name: string; salary: string, value:string }[] = [
-        { name: "Doctor", salary: "100000" , value:"1"},
-        { name: "Engineer", salary: "80000", value:"2" },
+    const professions: { name: string; salary: string; value: string }[] = [
+        { name: "Doctor", salary: "100000", value: "1" },
+        { name: "Engineer", salary: "80000", value: "2" },
     ];
     let age = 18;
 
@@ -34,6 +34,18 @@
         );
         salary = profession ? profession.salary : "";
     };
+
+    let checkboxValue = false;
+
+    function handleCheckboxChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        checkboxValue = target.checked;
+        if (checkboxValue){
+            target.value = "1"
+        }else{
+            target.value = "0"
+        }
+    }
 
     onMount(() => {
         const professionSelect = document.getElementById(
@@ -92,7 +104,7 @@
                     max="100"
                     bind:value={age}
                     id="age"
-                    name ="edad"
+                    name="edad"
                 />
             </label>
             <fieldset>
@@ -187,7 +199,13 @@
             </label>
             <fieldset>
                 <label for="age_relevant">
-                    <input type="checkbox" id="age_relevant" name="edad_relevante" role="switch" />
+                    <input
+                        type="checkbox"
+                        id="age_relevant"
+                        name="edad_relevante"
+                        role="switch"
+                        on:change={handleCheckboxChange}
+                    />
                     Age Relevant
                 </label>
             </fieldset>
