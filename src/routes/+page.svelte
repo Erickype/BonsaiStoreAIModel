@@ -7,19 +7,63 @@
 
     // Customers
     const countries: { name: string; value: string }[] = [
-        { name: "Ecuador", value: "1" },
-        { name: "UK", value: "2" },
+        { name: "Ecuador", value: "21" },
+        { name: "Colombia", value: "22" },
+        { name: "United States", value: "23" },
+        { name: "Sweden", value: "24" },
+        { name: "United Kingdom", value: "25" },
     ];
+
     let selectedProfession = "";
     let salary = "";
     const professions: { name: string; salary: string; value: string }[] = [
-        { name: "Doctor", salary: "100000", value: "1" },
-        { name: "Engineer", salary: "80000", value: "2" },
+        { name: "Business", salary: "1000", value: "1" },
+        { name: "Engineer", salary: "1500", value: "2" },
+        { name: "Firefighter", salary: "1000", value: "3" },
+        { name: "Mechanic", salary: "2000", value: "4" },
+        { name: "Policeman", salary: "900", value: "5" },
+        { name: "Teacher", salary: "750", value: "6" },
     ];
-    let age = 18;
+    let age = 24;
 
     //Products
-    const subcategories: { id: string }[] = [{ id: "2" }];
+    const subcategories: { name: string; id: string }[] = [
+        { name: "Moyogi", id: "2" },
+        { name: "Fukinagashi", id: "3" },
+        { name: "Kabudachi", id: "4" },
+        { name: "Literati", id: "5" },
+        { name: "Shakan", id: "6" },
+        { name: "Ikadabuki", id: "7" },
+        { name: "Han-Kengai", id: "8" },
+        { name: "Yose-ue", id: "9" },
+        { name: "Neagari", id: "10" },
+        { name: "Ishitsuki", id: "11" },
+        { name: "Akadama", id: "15" },
+        { name: "Kiryuzuna", id: "16" },
+        { name: "Kanuma", id: "17" },
+        { name: "Sphagnum moss", id: "18" },
+        { name: "Tierra para macetas", id: "19" },
+        { name: "Piedra pómez", id: "20" },
+        { name: "Perlita", id: "21" },
+        { name: "Vermiculita", id: "22" },
+        { name: "Tijeras de podar", id: "23" },
+        { name: "Cizallas de hoja larga", id: "24" },
+        { name: "Cizallas de yunque", id: "25" },
+        { name: "Tijeras de defoliación", id: "26" },
+        { name: "Pinzas de agarrar", id: "27" },
+        { name: "Gancho de raíz", id: "28" },
+        { name: "Cepillo de raíz", id: "29" },
+        { name: "Cincel de raíz", id: "30" },
+        { name: "Sierra", id: "31" },
+        { name: "Alicate", id: "32" },
+        { name: "Macetas de cerámica", id: "33" },
+        { name: "Macetas de madera", id: "34" },
+        { name: "Macetas de arcilla", id: "35" },
+        { name: "Macetas de plástico", id: "36" },
+        { name: "Macetas de vidrio", id: "37" },
+        { name: "Macetas de metal", id: "38" },
+    ];
+
     let product_age = 1;
     let product_quantity = 1;
 
@@ -40,10 +84,10 @@
     function handleCheckboxChange(event: Event) {
         const target = event.target as HTMLInputElement;
         checkboxValue = target.checked;
-        if (checkboxValue){
-            target.value = "1"
-        }else{
-            target.value = "0"
+        if (checkboxValue) {
+            target.value = "1";
+        } else {
+            target.value = "0";
         }
     }
 
@@ -100,8 +144,8 @@
                 >Age: {age}
                 <input
                     type="range"
-                    min="18"
-                    max="100"
+                    min="24"
+                    max="63"
                     bind:value={age}
                     id="age"
                     name="edad"
@@ -150,50 +194,50 @@
             <select id="subcategory" name="subcategoria" required>
                 <option value="" selected>Select a subcategory</option>
                 {#each subcategories as subcategory}
-                    <option value={subcategory.id}>{subcategory.id}</option>
+                    <option value={subcategory.id}>{subcategory.name}</option>
                 {/each}
             </select>
             <label for="product_age"
                 >Product Age: {product_age}
                 <input
                     type="range"
-                    min="1"
-                    max="100"
+                    min="2"
+                    max="43"
                     bind:value={product_age}
                     id="product_age"
                     name="edad_producto"
                 />
             </label>
             <label for="height">
-                Height
+                Height(cm)
                 <input
                     type="number"
                     id="height"
                     name="alto"
                     placeholder="Height"
-                    step="0.01"
+                    min="1"
                     required
                 />
             </label>
             <label for="width">
-                Width
+                Width(cm)
                 <input
                     type="number"
                     id="width"
                     name="ancho"
                     placeholder="Width"
-                    step="0.01"
+                    min="1"
                     required
                 />
             </label>
             <label for="depth">
-                Depth
+                Depth(cm)
                 <input
                     type="number"
                     id="depth"
                     name="profundidad"
                     placeholder="Depth"
-                    step="0.01"
+                    min="0"
                     required
                 />
             </label>
@@ -230,6 +274,7 @@
                     id="unit_price"
                     name="precio_unitario"
                     placeholder="Unit price"
+                    min="5"
                     step="0.01"
                     required
                 />
@@ -275,6 +320,8 @@
                     name="ganancia"
                     placeholder="Proffit"
                     step="0.01"
+                    min="1"
+                    max="230"
                     required
                 />
             </label>
