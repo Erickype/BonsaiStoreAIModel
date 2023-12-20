@@ -4,6 +4,6 @@
 </script>
 
 <main class="container">
-    <h1>Bonsai Store AI model</h1>
+    <h1>Clean alternative cars classifier</h1>
     <slot />
 </main>
