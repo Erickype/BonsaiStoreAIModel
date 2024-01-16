@@ -17,7 +17,7 @@ export const actions = {
           }
         console.log(JSON.stringify(jsonObject));
         
-        const response = await fetch('http://cd25-34-125-239-243.ngrok-free.app/getLabel', {
+        const response = await fetch('http://c959-34-83-227-93.ngrok-free.app/getLabel', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

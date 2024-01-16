@@ -5,13 +5,36 @@
     import { VehicleTypes } from "$lib/constants";
     import { VehicleModels } from "$lib/constants";
     import { VehiclePrimaryUses } from "$lib/constants";
+    import { VehicleMake } from "$lib/constants";
 
     export let form: ActionData;
+
+    // Function to get the name associated with the value
+    const getMakeName = (value:string) => {
+        const make = VehicleMake.find((make) => make.value === value);
+        return make ? make.name : "Unknown";
+    };
+
+    // On component mount, set the selectedMake based on the server response
+    function selectedMake(){
+        const responseValue = form?.response.label.match(/\d+/); // Extract the number from the response
+        console.log(responseValue);
+        
+        return  responseValue
+            ? getMakeName(responseValue[0])
+            : "Unknown";
+    }
 </script>
 
 <pre>
     {JSON.stringify(form, null, 2)}
 </pre>
+
+<h2>
+    {#if form?.response}
+        Vehicle make: {selectedMake()}
+    {/if}
+</h2>
 
 <form method="POST" action="?/getLabel" use:enhance>
     <div class="grid">
